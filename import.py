@@ -15,26 +15,31 @@ def main():
     reader = csv.reader(f)
     next(reader)
 
+    # Dictionary to keep track of restaurant objects by name
+    restaurants_dict = {}
+
     for restaurant_name, location, item_name, price in reader:
-        print(f"Restaurant: {restaurant_name}, Location: {location}, Item: {item_name}, Price: {price}")
-        
-        # Create a new restaurant
-        restaurant = Restaurant(name=restaurant_name, location=location)
+        # Check if the restaurant already exists in the dictionary
+        if restaurant_name not in restaurants_dict:
+            # If not, create a new restaurant object and add it to the database
+            restaurant = Restaurant(name=restaurant_name, location=location)
+            db.session.add(restaurant)
+            db.session.commit()
+            
+            # Add the restaurant to the dictionary for future reference
+            restaurants_dict[restaurant_name] = restaurant
 
-        # Add the restaurant to the session
-        db.session.add(restaurant)
+            print(f"Added restaurant: {restaurant_name} at {location}")
+        else:
+            # If the restaurant already exists, retrieve it from the dictionary
+            restaurant = restaurants_dict[restaurant_name]
 
-        # Commit the changes to get the restaurant an ID
-        db.session.commit()
-
-        # Now create a new menu item and associate it with the restaurant
+        # Create a new menu item and associate it with the restaurant
         menu_item = MenuItem(item_name=item_name, price=float(price), restaurant_id=restaurant.id)
-
-        # Add the menu item to the session
         db.session.add(menu_item)
+        print(f"Added menu item: {item_name} for {restaurant_name} (ID: {menu_item.id})")
 
-        # Commit the changes
-        db.session.commit()
+    db.session.commit()
 
 if __name__ == "__main__":
     # Allows for command line interaction with Flask application

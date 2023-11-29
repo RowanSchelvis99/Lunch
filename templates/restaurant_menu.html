@@ -1,15 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ restaurant.name }} Menu</title>
 </head>
 <body>
     <h1>{{ restaurant.name }} Menu</h1>
+    <p>Location: {{ restaurant.location }}</p>
+    
     <ul>
-        {% for menu_item in menu_items %}
-            <li>{{ menu_item.item_name }} - ${{ menu_item.price }}</li>
+        {% for item in restaurant.menu_items %}
+            <li>{{ item.item_name }} - ${{ item.price }}</li>
         {% endfor %}
     </ul>
 </body>
