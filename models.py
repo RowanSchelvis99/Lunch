@@ -9,9 +9,11 @@ class User(db.Model):
     username = db.Column(db.String, unique=True, nullable=False)
     password_hash = db.Column(db.String, nullable=False)
 
+    # Generate a unique password hash for password
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
+    # Verify password against hashed version
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 

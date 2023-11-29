@@ -16,7 +16,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 def main():
-    # Create tables based on each table definition in `models`
+    # Create tables
     db.create_all()
     print("Tables created successfully.")
 

@@ -23,47 +23,62 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-@app.route("/")
-def index():
-    return "Project 1: TODO"
+@app.route("/", methods=["GET"])
+def restaurant_list():
+    # Get a list of all restaurants from the database
+    restaurants = Restaurant.query.all()
+    return render_template("restaurants.html", restaurants=restaurants)
+
+@app.route("/restaurant/<int:restaurant_id>", methods=["GET"])
+def restaurant_menu(restaurant_id):
+    # Get the details of the selected restaurant
+    restaurant = Restaurant.query.get(restaurant_id)
+
+    if restaurant:
+        # Get the menu items for the selected restaurant
+        menu_items = MenuItem.query.filter_by(restaurant_id=restaurant.id).all()
+        return render_template("restaurant_menu.html", restaurant=restaurant, menu_items=menu_items)
+    else:
+        # Handle the case where the restaurant is not found
+        return render_template("error.html", message="Restaurant not found"), 404
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # make sure username is submitted
+        # Make sure username is submitted
         if not request.form.get("username"):
             return render_template("error.html", message="No username subitted"), 404
         
-        # query database for username
+        # Query database for username
         user = User.query.filter_by(username=request.form.get("username")).first()
 
         # Make sure the username is not already taken
         if user:
             return render_template("error.html", message = "Username is taken"), 404
 
-        # request password from user
+        # Request password from user
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
 
-        # make sure passwords is not filled in blank
+        # Make sure passwords is not filled in blank
         if not password or not confirmation:
             return render_template("error.html", message = "Must provide password"), 404
         
         if password != confirmation:
             return render_template("error.html", message = "Password must match"), 404
         
-        # make a unique hash for the password
+        # Make a unique hash for the password
 
         new_user = User(username=request.form.get("username"))
         new_user.set_password(password)
 
-        # add the new user to the database
+        # Add the new user to the database
         db.session.add(new_user)
         db.session.commit()
 
-        # returb user to home page
+        # Return user to home page
         return redirect("/")
     
     else:
