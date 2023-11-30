@@ -1,13 +1,22 @@
 import os
+from flask_login import LoginManager
 
 from flask import Flask, session, render_template, request,redirect
+from flask import render_template, redirect, url_for, flash
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from flask_login import current_user, login_required
+from forms import ReviewForm
+from models import Review
+from flask_login import LoginManager
+
 
 from models import *
 
 app = Flask(__name__)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -19,9 +28,13 @@ db.init_app(app)
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-
+app.config['SECRET_KEY'] = 'BDca8199'
 Session(app)
 
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @app.route("/", methods=["GET"])
 def restaurant_list():
@@ -128,3 +141,27 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
+
+@app.route("/write_review/<int:restaurant_id>", methods=["GET", "POST"])
+def write_review(restaurant_id):
+    form = ReviewForm()
+
+    if form.validate_on_submit():
+        review = Review(
+            content=form.content.data,
+            rating=form.rating.data,
+            user_id=current_user.id,
+            restaurant_id=restaurant_id
+        )
+        db.session.add(review)
+        db.session.commit()
+        flash("Review submitted successfully!", "success")
+        return redirect(url_for("restaurant", restaurant_id=restaurant_id))
+
+    return render_template("write_review.html", form=form)
+
+@app.route("/restaurant/<int:restaurant_id>")
+def restaurant(restaurant_id):
+    restaurant = Restaurant.query.get(restaurant_id)
+    reviews = Review.query.filter_by(restaurant_id=restaurant_id).all()
+    return render_template("restaurant.html", restaurant=restaurant, reviews=reviews)

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurants</title>
+</head>
+<body>
+    <h1>Restaurants</h1>
+
+    {% for restaurant in restaurants %}
+        <div>
+            <h2>{{ restaurant.name }}</h2>
+            <p>Location: {{ restaurant.location }}</p>
+            <a href="{{ url_for('restaurant', restaurant_id=restaurant.id) }}">View Menu and Reviews</a>
+        </div>
+    {% endfor %}
+</body>
+</html>
