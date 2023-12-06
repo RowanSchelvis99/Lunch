@@ -10,6 +10,7 @@ from flask_login import current_user, login_required
 from forms import ReviewForm
 from models import Review
 from flask_login import LoginManager
+from flask_login import login_user
 
 
 from models import *
@@ -42,10 +43,21 @@ def restaurant_list():
     restaurants = Restaurant.query.all()
     return render_template("restaurants.html", restaurants=restaurants)
 
+@app.route("/restaurant/<int:restaurant_id>/reviews", methods=["GET"])
+def restaurant_reviews(restaurant_id):
+    restaurant = Restaurant.query.get(restaurant_id)
+
+    if restaurant:
+        reviews = Review.query.filter_by(restaurant_id=restaurant.id).all()
+        return render_template("restaurant_reviews.html", restaurant=restaurant, reviews=reviews)
+    else:
+        return render_template("error.html", message="Restaurant not found"), 404
+
 @app.route("/restaurant/<int:restaurant_id>", methods=["GET"])
 def restaurant_menu(restaurant_id):
     # Get the details of the selected restaurant
     restaurant = Restaurant.query.get(restaurant_id)
+    print(restaurant)  # Add this line to print the restaurants
 
     if restaurant:
         # Get the menu items for the selected restaurant
@@ -101,37 +113,42 @@ def register():
 def login():
     """Log user in"""
 
-    # Forget any user_id
-    session.clear()
-
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return render_template("error.html", message = "Must provide username"), 404
+            flash("Must provide username", "error")
+            return render_template("login.html")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return render_template("error.html", message = "Must provide password"), 404
+            flash("Must provide password", "error")
+            return render_template("login.html")
 
         # Query database for username
         user = User.query.filter_by(username=request.form.get("username")).first()
 
         # Ensure username exists and password is correct
         if not user or not user.check_password(request.form.get("password")):
-            return render_template("error.html", message = "Must provide password"), 404
+            flash("Invalid username or password", "error")
+            return render_template("login.html")
 
-        # Remember which user has logged in
-        session["user_id"] = user.id
+        # Log the user in
+        login_user(user)
 
-        # Redirect user to home page
-        return redirect("/")
+        flash(f"Logged in as {user.username}", "success")
+
+        # Redirect user to the write_review page for the specified restaurant
+        next_page = request.args.get("next")
+        if next_page:
+            return redirect(next_page)
+        else:
+            return redirect(url_for("restaurant_list"))
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html")
-
 @app.route("/logout")
 def logout():
     """Log user out"""
@@ -143,6 +160,7 @@ def logout():
     return redirect("/")
 
 @app.route("/write_review/<int:restaurant_id>", methods=["GET", "POST"])
+@login_required
 def write_review(restaurant_id):
     form = ReviewForm()
 
@@ -156,7 +174,13 @@ def write_review(restaurant_id):
         db.session.add(review)
         db.session.commit()
         flash("Review submitted successfully!", "success")
-        return redirect(url_for("restaurant", restaurant_id=restaurant_id))
+
+        # Redirect to the page user intended to visit (if any), or to the restaurant page
+        next_page = request.args.get("next")
+        if next_page:
+            return redirect(next_page)
+        else:
+            return redirect(url_for("restaurant", restaurant_id=restaurant_id))
 
     return render_template("write_review.html", form=form)
 

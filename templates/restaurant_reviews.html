@@ -1,0 +1,10 @@
+<!-- restaurant_reviews.html -->
+
+<h1>Reviews for {{ restaurant.name }}</h1>
+
+{% for review in reviews %}
+    <div>
+        <p>Rating: {{ review.rating }}</p>
+        <p>{{ review.content }}</p>
+    </div>
+{% endfor %}

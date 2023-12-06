@@ -1,14 +1,20 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     password_hash = db.Column(db.String, nullable=False)
     reviews = db.relationship("Review", backref="author", lazy=True)
+    
+
+    def is_active(self):
+        # All users are considered active in this simple example
+        return True
 
     # Generate a unique password hash for password
     def set_password(self, password):
@@ -25,6 +31,7 @@ class Review(db.Model):
     user_id= db.Column(db.Integer, db.ForeignKey("users.id"), nullable =False)
     restaurant_id= db.Column(db.Integer, db.ForeignKey("restaurants.id"), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
+    user = db.relationship("User", back_populates="reviews")
 
 class Restaurant(db.Model):
     __tablename__ = "restaurants"
