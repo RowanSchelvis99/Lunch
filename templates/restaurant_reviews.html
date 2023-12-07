@@ -1,10 +1,14 @@
-<!-- restaurant_reviews.html -->
-
 <h1>Reviews for {{ restaurant.name }}</h1>
 
-{% for review in reviews %}
-    <div>
-        <p>Rating: {{ review.rating }}</p>
-        <p>{{ review.content }}</p>
-    </div>
-{% endfor %}
+{% if reviews %}
+    <p>Average Rating: {% if average_rating %}{{ average_rating }}{% else %}No reviews yet{% endif %}</p>
+    {% for review in reviews %}
+        <div>
+            <p>Rating: {{ review.rating }}</p>
+            <p>Review: {{ review.content }}</p>
+            <p>Written by: {{ review.user.username }}</p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No reviews yet</p>
+{% endif %}

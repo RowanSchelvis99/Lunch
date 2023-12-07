@@ -11,7 +11,7 @@ from forms import ReviewForm
 from models import Review
 from flask_login import LoginManager
 from flask_login import login_user
-
+from sqlalchemy import func
 
 from models import *
 
@@ -49,7 +49,20 @@ def restaurant_reviews(restaurant_id):
 
     if restaurant:
         reviews = Review.query.filter_by(restaurant_id=restaurant.id).all()
-        return render_template("restaurant_reviews.html", restaurant=restaurant, reviews=reviews)
+
+        # Calculate average rating
+        average_rating = (
+            db.session.query(func.round(func.avg(Review.rating), 1))
+            .filter_by(restaurant_id=restaurant.id)
+            .scalar()
+        )
+
+        return render_template(
+            "restaurant_reviews.html",
+            restaurant=restaurant,
+            reviews=reviews,
+            average_rating=average_rating,
+        )
     else:
         return render_template("error.html", message="Restaurant not found"), 404
 

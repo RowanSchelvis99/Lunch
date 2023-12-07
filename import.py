@@ -11,7 +11,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 def main():
-    f = open("pseudo_data.csv")
+    f = open("data.csv")
     reader = csv.reader(f)
     next(reader)
 
