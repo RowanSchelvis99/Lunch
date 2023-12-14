@@ -1,14 +1,117 @@
-<h1>Reviews for {{ restaurant.name }}</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-{% if reviews %}
-    <p>Average Rating: {% if average_rating %}{{ average_rating }}{% else %}No reviews yet{% endif %}</p>
-    {% for review in reviews %}
-        <div>
-            <p>Rating: {{ review.rating }}</p>
-            <p>Review: {{ review.content }}</p>
-            <p>Written by: {{ review.user.username }}</p>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            background: url('/static/reviews.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: black; 
+            margin: 0;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        .reviews-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .review-box {
+            max-width: 300px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .reviewer-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .review-content {
+            margin-top: 10px;
+        }
+
+        .average-rating-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .average-rating {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .page-title {
+            color: white; 
+        }
+
+        nav {
+            background-color: #39424e;
+        }
+
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+    </style>
+    <title>Reviews for {{ restaurant.name }}</title>
+</head>
+
+<body class="blue-grey lighten-5">
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="{{ url_for('restaurant_list') }}" class="brand-logo waves-effect waves-light btn">Home</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Sign Up</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h1 class="center-align page-title">Reviews for {{ restaurant.name }}</h1>
+
+            {% if reviews %}
+                <div class="average-rating-container">
+                    <p class="average-rating">Average Rating: {% if average_rating %}{{ average_rating }}{% else %}No reviews yet{% endif %}</p>
+                </div>
+                <div class="reviews-container">
+                    {% for review in reviews %}
+                        <div class="review-box">
+                            <p class="reviewer-name">{{ review.user.username }}</p>
+                            <div class="review-content">
+                                <p>Rating: {{ review.rating }}</p>
+                                <p>{{ review.content }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No reviews yet</p>
+            {% endif %}
         </div>
-    {% endfor %}
-{% else %}
-    <p>No reviews yet</p>
-{% endif %}
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>

@@ -13,9 +13,11 @@ from flask_login import LoginManager
 from flask_login import login_user
 from sqlalchemy import func
 
+
 from models import *
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
@@ -41,7 +43,17 @@ def load_user(user_id):
 def restaurant_list():
     # Get a list of all restaurants from the database
     restaurants = Restaurant.query.all()
-    return render_template("restaurants.html", restaurants=restaurants)
+
+    average_ratings = {}
+    for restaurant in restaurants:
+        average_rating = (
+            db.session.query(func.round(func.avg(Review.rating), 1))
+            .filter_by(restaurant_id=restaurant.id)
+            .scalar()
+        )
+        average_ratings[restaurant.id] = average_rating
+
+    return render_template("restaurants.html", restaurants=restaurants, average_rating=average_ratings)
 
 @app.route("/restaurant/<int:restaurant_id>/reviews", methods=["GET"])
 def restaurant_reviews(restaurant_id):
@@ -68,17 +80,117 @@ def restaurant_reviews(restaurant_id):
 
 @app.route("/restaurant/<int:restaurant_id>", methods=["GET"])
 def restaurant_menu(restaurant_id):
-    # Get the details of the selected restaurant
+    restaurant_info = {
+        1: {
+            "image": "/static/restaurants/1.jpg",
+            "description": "Café-restaurant Polder bevindt zich op het terrein van Science Park Amsterdam, precies tussen de kennisinstituten. Je kunt dit gezellige restaurant de hele dag door bezoeken: van roerei bij het ontbijt tot een broodje voor de lunch en een uitgebreid diner (veel biologisch!) in de avonden. Om op te warmen, kun je plaatsnemen in een van de fauteuils rond de houtkachel. Bij mooi weer is er ook een leuk terras met picknicktafels.",
+            "opening_hours": {
+                "Monday": "9:00 - 0:00",
+                "Tuesday": "9:00 - 0:00",
+                "Wednesday": "9:00 - 0:00",
+                "Thursday": "9:00 - 0:00",
+                "Friday": "9:00 - 0:00",
+                "Saturday": "9:00 - 0:00",
+                "Sunday": "9:00 - 0:00",
+            },
+        },
+        2: {
+            "image": "/static/restaurants/2.jpg",
+            "description": "Description for Restaurant 2",
+            "opening_hours": {
+                "Monday": "9:00 AM - 7:00 PM",
+                "Tuesday": "9:00 AM - 7:00 PM",
+                "Wednesday": "10:00 AM - 5:00 PM",
+                "Thursday": "9:00 AM - 7:00 PM",
+                "Friday": "9:00 AM - 9:00 PM",
+                "Saturday": "11:00 AM - 9:00 PM",
+                "Sunday": "11:00 AM - 7:00 PM",
+            },
+        },
+        3: {
+            "image": "/static/restaurants/3.jpg",
+            "description": "Description for Restaurant 3",
+            "opening_hours": {
+                "Monday": "8:00 AM - 6:00 PM",
+                "Tuesday": "8:00 AM - 6:00 PM",
+                "Wednesday": "9:00 AM - 4:00 PM",
+                "Thursday": "8:00 AM - 6:00 PM",
+                "Friday": "8:00 AM - 8:00 PM",
+                "Saturday": "10:00 AM - 8:00 PM",
+                "Sunday": "10:00 AM - 6:00 PM",
+            },
+        },
+        4: {
+            "image": "/static/restaurants/4.jpg",
+            "description": "Description for Restaurant 4",
+            "opening_hours": {
+                "Monday": "7:00 AM - 5:00 PM",
+                "Tuesday": "7:00 AM - 5:00 PM",
+                "Wednesday": "8:00 AM - 3:00 PM",
+                "Thursday": "7:00 AM - 5:00 PM",
+                "Friday": "7:00 AM - 7:00 PM",
+                "Saturday": "9:00 AM - 7:00 PM",
+                "Sunday": "9:00 AM - 5:00 PM",
+            },
+        },
+        5: {
+            "image": "/static/restaurants/5.jpg",
+            "description": "Description for Restaurant 5",
+            "opening_hours": {
+                "Monday": "6:00 AM - 4:00 PM",
+                "Tuesday": "6:00 AM - 4:00 PM",
+                "Wednesday": "7:00 AM - 2:00 PM",
+                "Thursday": "6:00 AM - 4:00 PM",
+                "Friday": "6:00 AM - 6:00 PM",
+                "Saturday": "8:00 AM - 6:00 PM",
+                "Sunday": "8:00 AM - 4:00 PM",
+            },
+        },
+        6: {
+            "image": "/static/restaurants/6.jpg",
+            "description": "Description for Restaurant 6",
+            "opening_hours": {
+                "Monday": "5:00 AM - 3:00 PM",
+                "Tuesday": "5:00 AM - 3:00 PM",
+                "Wednesday": "6:00 AM - 1:00 PM",
+                "Thursday": "5:00 AM - 3:00 PM",
+                "Friday": "5:00 AM - 5:00 PM",
+                "Saturday": "7:00 AM - 5:00 PM",
+                "Sunday": "7:00 AM - 3:00 PM",
+            },
+        },
+        7: {
+            "image": "/static/restaurants/7.jpg",
+            "description": "Description for Restaurant 7",
+            "opening_hours": {
+                "Monday": "4:00 AM - 2:00 PM",
+                "Tuesday": "4:00 AM - 2:00 PM",
+                "Wednesday": "5:00 AM - 12:00 PM",
+                "Thursday": "4:00 AM - 2:00 PM",
+                "Friday": "4:00 AM - 4:00 PM",
+                "Saturday": "6:00 AM - 4:00 PM",
+                "Sunday": "6:00 AM - 2:00 PM",
+            },
+        },
+    }
+
     restaurant = Restaurant.query.get(restaurant_id)
-    print(restaurant)  # Add this line to print the restaurants
 
     if restaurant:
-        # Get the menu items for the selected restaurant
         menu_items = MenuItem.query.filter_by(restaurant_id=restaurant.id).all()
-        return render_template("restaurant_menu.html", restaurant=restaurant, menu_items=menu_items)
+        print("Debug: Menu Items:", menu_items)
+
+        info = restaurant_info.get(restaurant_id, {})
+
+        return render_template(
+            "restaurant_menu.html",
+            restaurant=restaurant,
+            menu_items=menu_items,
+            info=info,
+        )
     else:
-        # Handle the case where the restaurant is not found
         return render_template("error.html", message="Restaurant not found"), 404
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -96,7 +208,6 @@ def register():
         if user:
             return render_template("error.html", message = "Username is taken"), 404
 
-        # Request password from user
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
 
@@ -126,51 +237,43 @@ def register():
 def login():
     """Log user in"""
 
-    # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # Ensure username was submitted
         if not request.form.get("username"):
             flash("Must provide username", "error")
             return render_template("login.html")
-
-        # Ensure password was submitted
+        
         elif not request.form.get("password"):
             flash("Must provide password", "error")
             return render_template("login.html")
 
-        # Query database for username
+ 
         user = User.query.filter_by(username=request.form.get("username")).first()
 
-        # Ensure username exists and password is correct
         if not user or not user.check_password(request.form.get("password")):
             flash("Invalid username or password", "error")
             return render_template("login.html")
 
-        # Log the user in
+
         login_user(user)
 
         flash(f"Logged in as {user.username}", "success")
 
-        # Redirect user to the write_review page for the specified restaurant
         next_page = request.args.get("next")
         if next_page:
             return redirect(next_page)
         else:
             return redirect(url_for("restaurant_list"))
 
-    # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html")
 @app.route("/logout")
 def logout():
     """Log user out"""
-
-    # Forget any user_id
     session.clear()
 
-    # Redirect user to login form
     return redirect("/")
+
 
 @app.route("/write_review/<int:restaurant_id>", methods=["GET", "POST"])
 @login_required
@@ -188,7 +291,6 @@ def write_review(restaurant_id):
         db.session.commit()
         flash("Review submitted successfully!", "success")
 
-        # Redirect to the page user intended to visit (if any), or to the restaurant page
         next_page = request.args.get("next")
         if next_page:
             return redirect(next_page)
@@ -202,3 +304,7 @@ def restaurant(restaurant_id):
     restaurant = Restaurant.query.get(restaurant_id)
     reviews = Review.query.filter_by(restaurant_id=restaurant_id).all()
     return render_template("restaurant.html", restaurant=restaurant, reviews=reviews)
+
+@app.route("/test")
+def test():
+    return render_template("test.html")

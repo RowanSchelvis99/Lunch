@@ -1,28 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            background: url('/static/whitemain.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            margin: 0;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        header {
+            background-color: #39424e;
+            padding: 10px 0;
+        }
+
+        nav {
+            background-color: #39424e;
+        }
+
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        .menu-top {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .menu-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .restaurant-description {
+            margin-top: 20px;
+        }
+
+        .restaurant-info-box {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+        }
+
+        .menu-container {
+            margin-top: 40px;
+        }
+
+        .menu-heading {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item-name {
+            font-size: 20px;
+            font-weight: bold;
+        }   
+
+ 
+        .menu-item-price {
+            font-size: 18px;
+        }
+
+        .reviews-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+        }
+    </style>
     <title>{{ restaurant.name }} Menu</title>
 </head>
-<body>
-    <h1>{{ restaurant.name }} Menu</h1>
-    
-    <ul>
-        {% for item in menu_items %}
-            <li>{{ item.item_name }} - ${{ item.price }}</li>
-        {% endfor %}
-    </ul>
 
-    {% if restaurant %}
-        {% if current_user.is_authenticated %}
-            <a href="{{ url_for('write_review', restaurant_id=restaurant.id) }}">Write a Review</a>
-        {% else %}
-            <a href="{{ url_for('login', next=url_for('write_review', restaurant_id=restaurant.id)) }}">Log in to Write a Review</a>
-        {% endif %}
-        <a href="{{ url_for('restaurant_reviews', restaurant_id=restaurant.id) }}">See Reviews</a>
-    {% endif %}
+<body class="blue-grey lighten-5">
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="{{ url_for('restaurant_list') }}" class="brand-logo waves-effect waves-light btn">Home</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Sign Up</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
 
+            <div class="menu-top">
+                <img class="menu-image" src="{{ info.image }}" alt="{{ restaurant.name }}">
+
+                <div class="restaurant-description">
+                    <p>{{ info.description }}</p>
+                </div>
+            </div>
+
+            <div class="restaurant-info-box">
+                <div class="info-item">
+                    <strong>Opening Hours:</strong>
+                    <ul>
+                        {% for day, hours in info.opening_hours.items() %}
+                            <li>{{ day }}: {{ hours }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="info-item">
+                    <strong>Location:</strong> {{ info.location }}
+                </div>
+                <div class="info-item">
+                    <strong>Contact Information:</strong> {{ info.contact }}
+                </div>
+            </div>
+
+            <div class="menu-heading">
+                Menu
+            </div>
+
+            <div class="menu-container">
+                
+                {% for item in menu_items %}
+                    <div class="menu-item">
+                        <span class="menu-item-name">{{ item.item_name }}</span>
+                        <span class="menu-item-price">${{ item.price }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            
+
+            {% if restaurant %}
+                <div class="reviews-actions">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('write_review', restaurant_id=restaurant.id) }}" class="btn waves-effect waves-light btn-primary">Write a Review</a>
+                    {% else %}
+                        <a href="{{ url_for('login', next=url_for('write_review', restaurant_id=restaurant.id)) }}" class="btn waves-effect waves-light btn-secondary">Log in to Write a Review</a>
+                    {% endif %}
+                    <a href="{{ url_for('restaurant_reviews', restaurant_id=restaurant.id) }}" class="btn waves-effect waves-light btn-secondary">See Reviews</a>
+                </div>
+            {% endif %}
+
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+
 </html>

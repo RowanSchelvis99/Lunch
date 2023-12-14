@@ -1,20 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            background: url('/static/background3.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            margin: 0;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        .input-field {
+            margin-bottom: 20px;
+        }
+
+        nav {
+            background-color: #39424e;
+        }
+
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        .login-box {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: black;
+        }
+
+        .login-title {
+            font-size: 200%;
+        }
+
+        .center-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+    </style>
     <title>Login</title>
 </head>
-<body>
-    <h1>Login</h1>
-    <form action="/login" method="post">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
+
+<body class="blue-grey lighten-5">
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="{{ url_for('restaurant_list') }}" class="brand-logo waves-effect waves-light btn"><i class="material-icons">home</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{{ url_for('register') }}">Sign Up</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="center-box">
+            <div class="container">
+                <div class="login-box">
+                    <h1 class="login-title">Login</h1>
+                    <form action="/login" method="post">
+                        <div class="input-field">
+                            <label for="username">Username:</label>
+                            <input type="text" name="username" required>
+                        </div>
+                        <div class="input-field">
+                            <label for="password">Password:</label>
+                            <input type="password" name="password" required>
+                        </div>
+                        <button class="btn waves-effect waves-light" type="submit">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+
 </html>
