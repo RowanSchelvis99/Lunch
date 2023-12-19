@@ -12,107 +12,117 @@
             flex-direction: column;
             background: url('/static/write.jpg') no-repeat center center fixed;
             background-size: cover;
-            color: white;
+            color: #333;
             margin: 0;
+            font-family: 'Arial', sans-serif;
         }
 
         main {
             flex: 1 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 64px;
         }
 
         form {
-            max-width: 800px;
+            max-width: 600px;
             margin: auto;
-            margin-top: 20px;
             padding: 20px;
-            background-color: white;
+            background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
         label {
             font-weight: bold;
             display: block;
             margin-bottom: 8px;
+            color: #555;
         }
 
         input[type="text"],
         textarea {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
+            padding: 10px;
+            margin-bottom: 20px;
             display: inline-block;
             border: 1px solid #ccc;
+            border-radius: 4px;
             box-sizing: border-box;
         }
 
         button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
+            background-color: #3498db;
+            color: #fff;
+            padding: 12px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #2980b9;
         }
 
         .error {
-            color: red;
+            color: #e74c3c;
             margin-top: 5px;
         }
 
         h1 {
-            color: white;
+            color: #fff;
+            text-align: center;
+            font-size: 2rem; 
+            margin-top: 20px;
         }
 
         nav {
-            background-color: #39424e;
+            background-color: #2c3e50;
+            padding-left: 20px;
+            padding-right: 20px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
         }
 
         nav a {
-            color: #fff;
-            margin: 0 15px;
+            color: #ecf0f1;
             text-decoration: none;
+            transition: background 0.3s;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background-color: #34495e;
         }
     </style>
     <title>Write a Review</title>
 </head>
 
 <body class="blue-grey lighten-5">
-    <header>
-        <nav>
-            <div class="nav-wrapper">
-                <a href="{{ url_for('restaurant_list') }}" class="brand-logo waves-effect waves-light btn">Home</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('register') }}">Sign Up</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="{{ url_for('restaurant_list') }}" class="brand-logo" style="color: #ecf0f1; font-weight: bold;">Restaurants</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('login') }}" style="color: #ecf0f1;">Login</a></li>
+                <li><a href="{{ url_for('register') }}" style="color: #ecf0f1;">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <main>
         <div class="container">
-            <h1 class="center-align">Write a Review</h1>
+            <h1>Write a Review</h1>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-            <form method="POST">
+            <form method="POST" action="">
                 {{ form.csrf_token }}
                 <div>
                     {{ form.hidden_tag() }}
-                    <label for="content">Review:</label>
+                    <label for="content">Your Review:</label>
                     {{ form.content(size=10) }}
                     {% for error in form.content.errors %}
                         <p class="error">{{ error }}</p>
@@ -125,7 +135,7 @@
                         <p class="error">{{ error }}</p>
                     {% endfor %}
                 </div>
-                <div>
+                <div style="text-align: center;">
                     <button type="submit">Submit Review</button>
                 </div>
             </form>

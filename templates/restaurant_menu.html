@@ -15,31 +15,61 @@
             background-size: cover;
             color: black;
             margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        header {
+            background: url('/static/Amsterdam-Science-Park.jpg') no-repeat center;
+            background-size: cover;
+            text-align: center;
+            padding: 110px 20px;
+            color: white;
+            position: relative;
         }
 
         main {
             flex: 1 0 auto;
-        }
-
-        header {
-            background-color: #39424e;
-            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding-top: 64px;
+            background-color: white;
+            padding: 110px 20px 40px;
+            margin-top: 60px;
         }
 
         nav {
             background-color: #39424e;
+            padding: 0 20px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
         }
 
         nav a {
-            color: #fff;
-            margin: 0 15px;
+            color: white;
             text-decoration: none;
+            transition: background 0.3s;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            margin: 20px;
+            max-width: 800px;
         }
 
         .menu-top {
             background-color: white;
             padding: 20px;
             text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
         .menu-image {
@@ -51,6 +81,7 @@
 
         .restaurant-description {
             margin-top: 20px;
+            color: #555;
         }
 
         .restaurant-info-box {
@@ -60,10 +91,12 @@
 
         .info-item {
             margin-bottom: 10px;
+            color: #777;
         }
 
         .menu-container {
             margin-top: 40px;
+            text-align: center;
         }
 
         .menu-heading {
@@ -71,6 +104,7 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
+            color: #333;
         }
 
         .menu-item {
@@ -89,11 +123,12 @@
         .menu-item-name {
             font-size: 20px;
             font-weight: bold;
-        }   
+            color: #333;
+        }
 
- 
         .menu-item-price {
             font-size: 18px;
+            color: #555;
         }
 
         .reviews-actions {
@@ -102,31 +137,50 @@
             margin-top: 20px;
         }
 
+        .btn-primary,
+        .btn-secondary {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
         .btn-primary {
             background-color: #007bff;
-            color: #fff;
         }
 
         .btn-secondary {
             background-color: #6c757d;
-            color: #fff;
+        }
+
+        .btn-primary:hover,
+        .btn-secondary:hover {
+            background-color: #0056b3;
         }
     </style>
     <title>{{ restaurant.name }} Menu</title>
 </head>
 
 <body class="blue-grey lighten-5">
+    <nav>
+        <div class="nav-wrapper">
+            <a href="{{ url_for('restaurant_list') }}" class="brand-logo" style="color: white; font-weight: bold;">Restaurants</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('register') }}" class="btn-signup">Sign Up</a></li>
+                <li><a href="{{ url_for('login') }}" class="btn-login">Log In</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <header>
-        <nav>
-            <div class="nav-wrapper">
-                <a href="{{ url_for('restaurant_list') }}" class="brand-logo waves-effect waves-light btn">Home</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('register') }}">Sign Up</a></li>
-                </ul>
-            </div>
-        </nav>
+        <div class="title-container">
+            <h1 class="main-title">{{ restaurant.name }} Menu</h1>
+        </div>
     </header>
+
     <main>
         <div class="container">
 
@@ -134,6 +188,7 @@
                 <img class="menu-image" src="{{ info.image }}" alt="{{ restaurant.name }}">
 
                 <div class="restaurant-description">
+                    <h4>{{ restaurant.name }}</h4>
                     <p>{{ info.description }}</p>
                 </div>
             </div>
@@ -147,12 +202,6 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="info-item">
-                    <strong>Location:</strong> {{ info.location }}
-                </div>
-                <div class="info-item">
-                    <strong>Contact Information:</strong> {{ info.contact }}
-                </div>
             </div>
 
             <div class="menu-heading">
@@ -160,24 +209,25 @@
             </div>
 
             <div class="menu-container">
-                
                 {% for item in menu_items %}
                     <div class="menu-item">
                         <span class="menu-item-name">{{ item.item_name }}</span>
-                        <span class="menu-item-price">${{ item.price }}</span>
+                        <span class="menu-item-price">&euro;{{ item.price }}</span>
                     </div>
                 {% endfor %}
             </div>
-            
 
             {% if restaurant %}
                 <div class="reviews-actions">
                     {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('write_review', restaurant_id=restaurant.id) }}" class="btn waves-effect waves-light btn-primary">Write a Review</a>
+                        <a href="{{ url_for('write_review', restaurant_id=restaurant.id) }}"
+                            class="btn btn-primary">Write a Review</a>
                     {% else %}
-                        <a href="{{ url_for('login', next=url_for('write_review', restaurant_id=restaurant.id)) }}" class="btn waves-effect waves-light btn-secondary">Log in to Write a Review</a>
+                        <a href="{{ url_for('login', next=url_for('write_review', restaurant_id=restaurant.id)) }}"
+                            class="btn btn-secondary">Log in to Write a Review</a>
                     {% endif %}
-                    <a href="{{ url_for('restaurant_reviews', restaurant_id=restaurant.id) }}" class="btn waves-effect waves-light btn-secondary">See Reviews</a>
+                    <a href="{{ url_for('restaurant_reviews', restaurant_id=restaurant.id) }}"
+                        class="btn btn-secondary">See Reviews</a>
                 </div>
             {% endif %}
 

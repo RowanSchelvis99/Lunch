@@ -2,7 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
+# Create database
 db = SQLAlchemy()
+
 
 class User(db.Model, UserMixin):
     __tablename__ = "users"
@@ -13,7 +15,6 @@ class User(db.Model, UserMixin):
     
 
     def is_active(self):
-        # All users are considered active in this simple example
         return True
 
     # Generate a unique password hash for password

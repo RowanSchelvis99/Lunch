@@ -96,80 +96,80 @@ def restaurant_menu(restaurant_id):
         },
         2: {
             "image": "/static/restaurants/2.jpg",
-            "description": "Description for Restaurant 2",
+            "description": "De doner kraam op Science Park Amsterdam biedt een smakelijke selectie van doner gerechten en snacks. Van klassieke donerbroodjes tot heerlijke snacks, het menu is gericht op hartige lekkernijen. Geniet van de authentieke smaak van doner in een informele setting. Perfect voor een snelle en smaakvolle hap op Science Park.",
             "opening_hours": {
-                "Monday": "9:00 AM - 7:00 PM",
-                "Tuesday": "9:00 AM - 7:00 PM",
-                "Wednesday": "10:00 AM - 5:00 PM",
-                "Thursday": "9:00 AM - 7:00 PM",
-                "Friday": "9:00 AM - 9:00 PM",
-                "Saturday": "11:00 AM - 9:00 PM",
-                "Sunday": "11:00 AM - 7:00 PM",
+                "Monday": "12:00 - 8:00",
+                "Tuesday": "12:00 - 8:00",
+                "Wednesday": "12:00 - 8:00",
+                "Thursday": "12:00 - 8:00",
+                "Friday": "12:00 - 8:00",
+                "Saturday": "Closed",
+                "Sunday": "Closed",
             },
         },
         3: {
             "image": "/static/restaurants/3.jpg",
-            "description": "Description for Restaurant 3",
+            "description": "Maslow is dé huiskamer van het Science Park. Een plek waar studenten en buurtgenoten zich thuis voelen. Kom gezellig bij ons drinken, eten en laptoppen voor een studentenprijs. Maslow serveert internationale gerechten en haalt veel inspiratie uit de Midden-Oosterse keuken. Wij maken zoveel mogelijk gebruik van verantwoorde en gezonde producten. Bij ons kun je onder andere terecht voor een pitabroodje met zelfgemaakte humus, auberginesalade, een goed gevulde tosti, falafelschotel of onze Maslow burger. Bij Maslow kun je heerlijke biologische koffie, bier en wijn drinken. Al onze producten zijn ook ‘to go’.",
             "opening_hours": {
-                "Monday": "8:00 AM - 6:00 PM",
-                "Tuesday": "8:00 AM - 6:00 PM",
-                "Wednesday": "9:00 AM - 4:00 PM",
-                "Thursday": "8:00 AM - 6:00 PM",
-                "Friday": "8:00 AM - 8:00 PM",
-                "Saturday": "10:00 AM - 8:00 PM",
-                "Sunday": "10:00 AM - 6:00 PM",
+                "Monday": "09:00 - laat",
+                "Tuesday": "09:00 - laat",
+                "Wednesday": "09:00 - laat",
+                "Thursday": "09:00 - laat",
+                "Friday": "09:00 - laat",
+                "Saturday": "Closed",
+                "Sunday": "Closed",
             },
         },
         4: {
             "image": "/static/restaurants/4.jpg",
-            "description": "Description for Restaurant 4",
+            "description": "Kan jij niet kiezen tussen al dat lekkers op de campus? Misschien is Pita Chef dan een uitkomst. Laten we even kennismaken met Pita Chef.Pita Chef is opgericht door de broers Bassel en Bashar. Zij komen uit Syrië en zijn in 2021 begonnen met het verkopen van belegde pitabroodjes op de Albert Cuyp markt.",
             "opening_hours": {
-                "Monday": "7:00 AM - 5:00 PM",
-                "Tuesday": "7:00 AM - 5:00 PM",
-                "Wednesday": "8:00 AM - 3:00 PM",
-                "Thursday": "7:00 AM - 5:00 PM",
-                "Friday": "7:00 AM - 7:00 PM",
-                "Saturday": "9:00 AM - 7:00 PM",
-                "Sunday": "9:00 AM - 5:00 PM",
+                "Monday": "10.00 - 19.00",
+                "Tuesday": "10.00 - 19.00",
+                "Wednesday": "10.00 - 19.00",
+                "Thursday": "10.00 - 19.00",
+                "Friday": "10.00 - 17.00",
+                "Saturday": "Closed",
+                "Sunday": "Closed",
             },
         },
         5: {
             "image": "/static/restaurants/5.jpg",
-            "description": "Description for Restaurant 5",
+            "description": "EZ is een gezellige snackkraam gelegen in de kantine van de Science Park-campus. Specialiserend in heerlijke burgers en tosti's, biedt EZ een snelle en smakelijke optie voor afhaalmaaltijden. Of je nu op zoek bent naar een stevige lunch tussen colleges door of gewoon zin hebt in een snelle hap, EZ verwelkomt je met een gevarieerd menu van overheerlijke snacks. De informele sfeer en handige locatie maken het de ideale plek om snel iets lekkers te halen terwijl je de drukte van de campus ervaart.",
             "opening_hours": {
-                "Monday": "6:00 AM - 4:00 PM",
-                "Tuesday": "6:00 AM - 4:00 PM",
-                "Wednesday": "7:00 AM - 2:00 PM",
-                "Thursday": "6:00 AM - 4:00 PM",
-                "Friday": "6:00 AM - 6:00 PM",
-                "Saturday": "8:00 AM - 6:00 PM",
-                "Sunday": "8:00 AM - 4:00 PM",
+                "Monday": "10.00 - 19.00",
+                "Tuesday": "10.00 - 19.00",
+                "Wednesday": "10.00 - 19.00",
+                "Thursday": "10.00 - 19.00",
+                "Friday": "10.00 - 17.00",
+                "Saturday": "Closed",
+                "Sunday": "Closed",
             },
         },
         6: {
             "image": "/static/restaurants/6.jpg",
-            "description": "Description for Restaurant 6",
+            "description": "Kimbab is een gezellige eetkraam gelegen in de kantine van het Science Park-campus. Het staat bekend om zijn heerlijke selectie van Koreaanse snacks, waaronder smaakvolle kimbab en verrukkelijke cupbap. Met een focus op authentieke smaken en draagbare opties, biedt Kimbab een aantrekkelijke keuze voor studenten en medewerkers die op zoek zijn naar snelle en smakelijke hapjes tussen hun activiteiten op de campus.",
             "opening_hours": {
-                "Monday": "5:00 AM - 3:00 PM",
-                "Tuesday": "5:00 AM - 3:00 PM",
-                "Wednesday": "6:00 AM - 1:00 PM",
-                "Thursday": "5:00 AM - 3:00 PM",
-                "Friday": "5:00 AM - 5:00 PM",
-                "Saturday": "7:00 AM - 5:00 PM",
-                "Sunday": "7:00 AM - 3:00 PM",
+                "Monday": "10.00 - 19.00",
+                "Tuesday": "10.00 - 19.00",
+                "Wednesday": "10.00 - 19.00",
+                "Thursday": "10.00 - 19.00",
+                "Friday": "10.00 - 17.00",
+                "Saturday": "Closed",
+                "Sunday": "Closed",
             },
         },
         7: {
             "image": "/static/restaurants/7.jpg",
-            "description": "Description for Restaurant 7",
+            "description": "Welcome to Eetcafe Oerknal, the ultimate student hangout where delicious food, refreshing drinks, and great vibes come together. Eetcafe Oerknal is more than just a place to eat or drink; it’s a venue filled with surprises, offering a diverse range of activities. Whether you’re stopping by for a quick bite between lectures or enjoying dinner with friends, Eetcafe Oerknal is the go-to spot. And, of course, we always keep the average student budget in mind.Oerknal also hosts a wide array of events, including live music/concerts, parties, comedy nights, and pub quizzes. Explore our website to uncover the enchantment of Oerknal, where quality and student camaraderie go hand in hand.",
             "opening_hours": {
-                "Monday": "4:00 AM - 2:00 PM",
-                "Tuesday": "4:00 AM - 2:00 PM",
-                "Wednesday": "5:00 AM - 12:00 PM",
-                "Thursday": "4:00 AM - 2:00 PM",
-                "Friday": "4:00 AM - 4:00 PM",
-                "Saturday": "6:00 AM - 4:00 PM",
-                "Sunday": "6:00 AM - 2:00 PM",
+                "Monday": "10:00 - 01:00",
+                "Tuesday": "10:00 - 01:00",
+                "Wednesday": "10:00 - 01:00",
+                "Thursday": "10:00 - 01:00",
+                "Friday": "10:00 - 01:00",
+                "Saturday": "10:00 - 16:00",
+                "Sunday": "10:00 - 16:00",
             },
         },
     }
@@ -295,7 +295,7 @@ def write_review(restaurant_id):
         if next_page:
             return redirect(next_page)
         else:
-            return redirect(url_for("restaurant", restaurant_id=restaurant_id))
+            return redirect(url_for("restaurant_reviews", restaurant_id=restaurant_id))
 
     return render_template("write_review.html", form=form)
 
@@ -305,6 +305,3 @@ def restaurant(restaurant_id):
     reviews = Review.query.filter_by(restaurant_id=restaurant_id).all()
     return render_template("restaurant.html", restaurant=restaurant, reviews=reviews)
 
-@app.route("/test")
-def test():
-    return render_template("test.html")

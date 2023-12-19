@@ -8,17 +8,63 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
         body {
+            background: url('/static/whitemain.jpg') no-repeat center;
             display: flex;
             min-height: 100vh;
             flex-direction: column;
-            background: url('/static/whitemain.jpg') no-repeat center center fixed;
-            background-size: cover; 
-            color: black;
-            margin: 0; 
+            margin: 0;
+        }
+
+        header {
+            background: url('/static/test6.jpg') no-repeat center;
+            background-size: cover;
+            text-align: center;
+            padding: 220px 20px;
+            color: white;
+            position: relative;
+        }
+
+        .title-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        nav {
+            background-color: #39424e;
+            padding-left: 20px;
+            padding-right: 20px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
         main {
             flex: 1 0 auto;
+            background-color: white;
+            padding: 110px 20px 40px;
+            margin-top: 60px;
         }
 
         .restaurant-card {
@@ -57,32 +103,6 @@
             justify-content: space-between;
         }
 
-        nav {
-            background-color: #39424e;
-            padding-left: 20px;
-            padding-right: 20px;
-            margin-bottom: 20px;
-        }
-
-        nav a {
-            color: #fff; 
-            text-decoration: none;
-        }
-
-        .brand-logo {
-            margin-left: 20px;
-            color: black; 
-        }
-
-        .nav-mobile a {
-            color: #fff; 
-            text-decoration: none;
-        }
-
-        .card-action {
-            display: none;
-        }
-
         .card-title {
             font-size: 1.5rem;
             margin-top: 10px;
@@ -95,22 +115,11 @@
             text-decoration: underline;
         }
 
-        .btn-login,
-        .btn-signup {
-            color: black; 
-        }
-
         .grey-box {
-            background-color: #333; 
-            padding: 
+            background-color: transparent;
             color: white;
             margin-bottom: 40px;
             text-align: center;
-        }
-
-        .grey-box h1 {
-            margin: 0;
-            font-size: 2.5rem;
         }
 
         .average-rating {
@@ -138,14 +147,18 @@
             font-size: 16px;
             margin-left: 5px;
         }
+
+        .ready-to-contribute {
+            color: black;
+        }
     </style>
     <title>Restaurants</title>
 </head>
 
 <body class="blue-grey lighten-5">
-    <nav class="white darken-2">
+    <nav>
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo" style="color: black;">Restaurants</a>
+            <a href="#" class="brand-logo" style="color: white; font-weight: bold;">Restaurants</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('register') }}" class="btn-signup">Sign Up</a></li>
                 <li><a href="{{ url_for('login') }}" class="btn-login">Log In</a></li>
@@ -153,12 +166,14 @@
         </div>
     </nav>
 
+    <header>
+        <div class="title-container">
+            <h1 class="main-title">Ontdek geweldige lunchplekken rondom Sciencepark!</h1>
+        </div>
+    </header>
+
     <main>
         <div class="container">
-
-            <div class="grey-box">
-                <h1>What are you having for lunch today?</h1>
-            </div>
 
             <div class="row">
                 {% for restaurant in restaurants %}
@@ -186,7 +201,7 @@
             <div class="row">
                 <div class="col s12 m6 offset-m3">
                     <div class="card-panel">
-                        <p>Ready to contribute? Sign up or log in to leave a review!.</p>
+                        <p class="ready-to-contribute">Meld je aan of log in om een recensie achter te laten!</p>
                         <div class="btn-container">
                             <a href="{{ url_for('register') }}" class="waves-effect waves-light btn btn-signup">Sign Up</a>
                             <a href="{{ url_for('login') }}" class="waves-effect waves-light btn btn-login">Log In</a>

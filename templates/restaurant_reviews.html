@@ -19,6 +19,9 @@
 
         main {
             flex: 1 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .reviews-container {
@@ -64,29 +67,39 @@
 
         nav {
             background-color: #39424e;
+            padding-left: 20px;
+            padding-right: 20px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
         }
 
         nav a {
-            color: #fff;
-            margin: 0 15px;
+            color: white;
             text-decoration: none;
+            transition: background 0.3s;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
     </style>
     <title>Reviews for {{ restaurant.name }}</title>
 </head>
 
 <body class="blue-grey lighten-5">
-    <header>
-        <nav>
-            <div class="nav-wrapper">
-                <a href="{{ url_for('restaurant_list') }}" class="brand-logo waves-effect waves-light btn">Home</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('register') }}">Sign Up</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="{{ url_for('restaurant_list') }}" class="brand-logo" style="color: white; font-weight: bold;">Restaurants</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('login') }}" style="color: white;">Login</a></li>
+                <li><a href="{{ url_for('register') }}" style="color: white;">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <main>
         <div class="container">
             <h1 class="center-align page-title">Reviews for {{ restaurant.name }}</h1>
