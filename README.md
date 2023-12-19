@@ -25,3 +25,6 @@ Volg deze stappen om de applicatie te installeren:
 3. Start de Flask-applicatie.
     ```bash
     flash run --debug
+
+## Screencast
+https://youtu.be/z7BWXeAJqD8
